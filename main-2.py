@@ -61,26 +61,26 @@ def test_driver(new_sample, ref_sample_length):
 url = 'https://lehub.web.bpifrance.fr/search?advancedmode=1&refinementList%5BbusinessModels%5D%5B0%5D=B2B&refinementList%5Bmarkets%5D%5B0%5D=Banque%20%2F%20Finance&page=1'
 
 # On exécute le webdriver
-driver = selenium.webdriver.Firefox(executable_path = '/Users/maertens/Desktop/path/geckodriver')
+driver = webdriver.Firefox(executable_path = '/Users/maertens/Desktop/path/geckodriver')
 
 # On charge la page souhaitée
 driver.get(url)
 
-# On pause 2 secondes
-time.sleep(2)
+# On pause 1 seconde
+time.sleep(1)
 
 # On vérifie qu'il y a un bouton d'acceptation des cookies
-try:
+#try:
 
     # On récupère le xpath du bouton cookies
-    cookies_button = driver.find_element_by_xpath('//*[@id="footer_tc_privacy_button"]')
+cookies_button = driver.find_element_by_xpath('//*[@id="footer_tc_privacy_button"]')
 
     # On fait disparaître le bandeau cookies
-    cookies_button.click()
+cookies_button.click()
 
 # S'il n'y a pas de bouton d'acceptation des cookies, on ne fait rien
-except:
-    pass
+#except:
+#    pass
 
 # ------------------------ Fin: Accéder à la première page ------------------------
 
@@ -194,4 +194,4 @@ with open("data.csv", "w", newline="") as csv_file:
   "Contact 2", "Poste 2", "Contact 3", "Poste 3"]
   writer = csv.DictWriter(csv_file, fieldnames=cols)
   writer.writeheader()
-  writer.writerows(startup_data)
+  writer.writerows(data)
