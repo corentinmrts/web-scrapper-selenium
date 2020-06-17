@@ -61,7 +61,7 @@ def test_driver(new_sample, ref_sample_length):
 url = 'https://lehub.web.bpifrance.fr/search?advancedmode=1&refinementList%5BbusinessModels%5D%5B0%5D=B2B&refinementList%5Bmarkets%5D%5B0%5D=Banque%20%2F%20Finance&page=1'
 
 # On exécute le webdriver
-#driver = selenium.webdriver.Firefox(executable_path = '/Users/maertens/Desktop/path/geckodriver')
+driver = selenium.webdriver.Firefox(executable_path = '/Users/maertens/Desktop/path/geckodriver')
 
 # On charge la page souhaitée
 driver.get(url)
