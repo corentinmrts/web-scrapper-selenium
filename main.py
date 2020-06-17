@@ -15,6 +15,7 @@ from selenium import webdriver
 import time
 import pandas as pd
 from IPython.display import clear_output
+import csv
 
 # --------------------- end modules ---------------------
 
@@ -182,3 +183,15 @@ for i in range(results_length):
     #clear_output(wait = True)
 
 # ------------------------ Fin: Boucler sur les startups de la page 1------------------------
+
+
+
+
+# ------------------------ Début: Export CSV ------------------------
+
+with open("data.csv", "w", newline="") as csv_file:
+  cols = ["Nom","Date de création","Montant total levé","Contact 1","Poste 1",
+  "Contact 2", "Poste 2", "Contact 3", "Poste 3"]
+  writer = csv.DictWriter(csv_file, fieldnames=cols)
+  writer.writeheader()
+  writer.writerows(startup_data)
