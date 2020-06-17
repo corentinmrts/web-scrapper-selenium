@@ -57,6 +57,9 @@ def test_driver(new_sample, ref_sample_length):
 
 # ------------------------ Début: Accéder à la première page ------------------------
 
+# Début Script
+start_time = time.time()
+
 # On récupère l'url de la page (ici filtrée sur B2B & Banque)
 url = 'https://lehub.web.bpifrance.fr/search?advancedmode=1&refinementList%5BbusinessModels%5D%5B0%5D=B2B&refinementList%5Bmarkets%5D%5B0%5D=Banque%20%2F%20Finance&page=1'
 
@@ -87,6 +90,42 @@ cookies_button.click()
 
 
 
+# --------------- Charger les pages ----------------
+
+# On initialise une varibale count
+page_number = 1
+
+# On répète les actions suivantes au moins 20 fois
+while page_number < 20:
+
+# On vérifie qu'il y a un bouton
+    try:
+
+    # On localise ce bouton
+        button = driver.find_element_by_xpath("/html/body/div[1]/div/div/div[2]/div/div/div[6]/div/button")
+
+    # On clique sur le bouton
+        button.click()
+
+    # On arrête le script pendant 2 secondes
+        time.sleep(2)
+
+    # On incrémente la variable count
+        page_number += 1
+
+# S'il n'y a plus de bouton, on arrête le script
+    except:
+        print('Break')
+        break
+
+print('Nombre de pages chargées: ', page_number)
+
+# --------------- Charger les pages ----------------
+
+
+
+
+
 # ------------------------ Début: Boucler sur les startups de la page 1 ------------------------
 
 # On récupère les infos des startups de cette page
@@ -94,6 +133,7 @@ startups = driver.find_elements_by_xpath('/html/body/div[1]/div/div/div[2]/div/d
 
 # On stocke le nombre de startups présentes sur cette page
 results_length = len(startups)
+print('Nombre de startups dans le giron: ', results_length)
 
 # On créé une liste vide pour stocker les données
 # On veut constituer une liste de dictionnaires
@@ -104,6 +144,9 @@ count = 0
 
 # On boucle sur le nombre de startups présentes sur cette page
 for i in range(results_length):
+
+    info = len(startups)
+    print('Nombre de startups dans le giron après réactualisation: ', results_length)
 
     # On récupère son nom (on l'affiche) et sa date de création
     name = startups[i].find_element_by_class_name('ais-Highlight-nonHighlighted').text
@@ -167,8 +210,65 @@ for i in range(results_length):
     # On revient à la page précédente
     driver.get(url)
 
-    # On pause le script pendant 2 secondes
-    time.sleep(2)
+    # On pause le script pendant 4 secondes
+    time.sleep(4)
+
+    # On répète les actions suivantes au moins 20 fois
+    for i in range(20):
+
+    # On vérifie qu'il y a un bouton
+        try:
+
+        # On localise ce bouton
+            button = driver.find_element_by_xpath("/html/body/div[1]/div/div/div[2]/div/div/div[6]/div/button")
+
+        # On clique sur le bouton
+            button.click()
+
+        # On arrête le script pendant 2 secondes
+            time.sleep(2)
+
+    # S'il n'y a plus de bouton, on refait des boucles .. Code à améliorer évidemment
+
+        except:
+            # Le notifier
+            print('Break 1')
+
+            # On vérifie qu'il y a un bouton
+            try:
+                time.sleep(4)
+
+                # On localise ce bouton
+                button = driver.find_element_by_xpath("/html/body/div[1]/div/div/div[2]/div/div/div[6]/div/button")
+
+                # On clique sur le bouton
+                button.click()
+
+                # On arrête le script pendant 2 secondes
+                time.sleep(2)
+
+            except:
+
+                # Le notifier
+                print('Break 2')
+
+                # On vérifie qu'il y a un bouton
+                try:
+                    time.sleep(4)
+
+                    # On localise ce bouton
+                    button = driver.find_element_by_xpath("/html/body/div[1]/div/div/div[2]/div/div/div[6]/div/button")
+
+                    # On clique sur le bouton
+                    button.click()
+
+                    # On arrête le script pendant 2 secondes
+                    time.sleep(2)
+
+                except:
+                    print('Game over.')
+                    break
+
 
     # On réactualise les infos des startups de cette page
     startups = driver.find_elements_by_xpath('/html/body/div[1]/div/div/div[2]/div/div/div[6]/div/div/div')
@@ -179,10 +279,13 @@ for i in range(results_length):
     # On affiche le statut de la boucle
     count += 1
     print('{} itérations effectuées.'.format(count))
+    total_time = (time.time() - start_time) / 60
+    print("Temps d'exécution: {}min".format(total_time))
     print('-----------------------')
     #clear_output(wait = True)
 
 # ------------------------ Fin: Boucler sur les startups de la page 1------------------------
+
 
 
 
